@@ -1,0 +1,46 @@
+.dp-container {
+  display: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 100%;
+  background-color: #777fd7;
+  color: wheat;
+  padding: 20px;
+}
+.dp-container--active {
+  display: block;
+}
+.test-container {
+  position: relative;
+  width: 320px;
+  height: 500px;
+}
+.test {
+  position: relative;
+  width: 200px;
+}
+.dp-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  align-items: center;
+}
+.dp-main {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.dp-row {
+  display: grid;
+  grid-template-columns: repeat(7,1fr);
+  width: 100%;
+}
+.dp-week-name {
+  display: grid;
+  grid-template-columns: repeat(7,1fr);
+  width: 100%;
+}
+.dp-container--m .dp-row {
+  grid-template-columns: repeat(3, 1fr);
+}
