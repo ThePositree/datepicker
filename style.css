@@ -18,7 +18,7 @@
 }
 .test {
   position: relative;
-  width: 200px;
+  width: 300px;
 }
 .dp-nav {
   display: flex;
@@ -27,20 +27,19 @@
   align-items: center;
 }
 .dp-main {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-.dp-row {
   display: grid;
-  grid-template-columns: repeat(7,1fr);
+  grid-template-columns: repeat(7, 1fr);
   width: 100%;
 }
 .dp-week-name {
   display: grid;
   grid-template-columns: repeat(7,1fr);
   width: 100%;
+  justify-items: center;
 }
 .dp-container--m .dp-row {
   grid-template-columns: repeat(3, 1fr);
+}
+.dp-current-day {
+  background-color: wheat;
 }
