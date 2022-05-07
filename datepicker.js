@@ -61,22 +61,24 @@ class Datepicker {
       'Пт',
       'Сб',
     ]
-    let mounth = allM[new Date().getMonth()]
+    let mounth = getNameMounth(new Date().getMonth() + 1)
     let year = new Date().getFullYear()
+    let currentYear = year
     let day = new Date().getDate()
-    $el.value = `${year}-${f_addZero(getIndexMounth(mounth) + 1)}-${f_addZero(day)}`
+    let currentMounth = mounth
+    $el.value = `${year}-${f_addZero(getIndexMounth(mounth))}-${f_addZero(day)}`
     function getIndexMounth(m) {
-      return allM.indexOf(m)
+      return allM.indexOf(m) + 1
     }
     function getFirstDayOfWeek(m, y) {
-      return new Date(`${y}-${getIndexMounth(m) + 1}-1`).getDay();
+      return new Date(`${y}-${getIndexMounth(m)}-1`).getDay();
     }
     function getLastDayofMounth(m, y) {
-      return new Date(y, getIndexMounth(m) + 1, 0).getDate()
+      return new Date(y, getIndexMounth(m), 0).getDate()
     }
-    function drowBtn(m = allM[new Date().getMonth()], y = new Date().getFullYear(), d = new Date().getDate()) {
+    function drowBtn(m = getNameMounth(new Date().getMonth() + 1), y = new Date().getFullYear(), d = new Date().getDate()) {
       let result = '';
-      let amountDaysOfLastMounth = getLastDayofMounth(allM[getIndexMounth(m) - 1], y)
+      let amountDaysOfLastMounth = new Date(y, getIndexMounth(m) - 1, 0).getDate()
       let amountDaysOfcurrentMounth = getLastDayofMounth(m, y)
       let amountForDrowAllRow;
       let counter = 0;
@@ -102,12 +104,12 @@ class Datepicker {
       if (counter !== 7) {
         let amountForDrow = 7 - counter
         for (let index = 0; index < amountForDrow; index++) {
-          if (d === index) {
+          if (d - 1 === index && mounth.trim() === currentMounth.trim() && currentYear === year) {
             result += `<button class="dp-current-day">${amountForDrowOneRow}</button>`
             amountForDrowOneRow++
             counter2++
           } else {
-            result += `<button>${amountForDrowOneRow}</button>`
+            result += `<button class="dp-btn-day">${amountForDrowOneRow}</button>`
             amountForDrowOneRow++
             counter2++
           }
@@ -116,12 +118,12 @@ class Datepicker {
       }
       let amountForDrowRestRow = amountForDrowOneRow;
       for (let index = 0; index <= amountForDrowAllRow; index++) {
-        if (d === amountForDrowRestRow) {
+        if (d === amountForDrowRestRow && mounth.trim() === currentMounth.trim() && currentYear === year) {
           result += `<button class="dp-current-day">${amountForDrowRestRow}</button>`
           amountForDrowRestRow++
           counter2++
         } else {
-          result += `<button>${amountForDrowRestRow}</button>`
+          result += `<button class="dp-btn-day">${amountForDrowRestRow}</button>`
           amountForDrowRestRow++
           counter2++
         }
@@ -132,6 +134,61 @@ class Datepicker {
       }
       return result
     }
+    function drowMounthBtn(m = mounth) {
+      let result = '';
+      let indexCurrentMounth = getIndexMounth(m)
+      let counter = 0;
+      let mounthForDrow = 1;
+      let mounthForGreyDrow = 9;
+      let mounthForGreyDrow2 = 1;
+      for (let index = 0; index < 4; index++) {
+        result += `<button class="dp-btn-mounth dp-grey-mounth">${getNameMounth(mounthForGreyDrow)}</button>`
+        mounthForGreyDrow++
+      }
+      for (let index = 0; index < 12; index++) {
+        if (mounthForDrow === indexCurrentMounth) {
+          result += `<button class="dp-btn-mounth dp-current-mounth">${getNameMounth(mounthForDrow)}</button>`
+        } else {
+          result += `<button class="dp-btn-mounth">${getNameMounth(mounthForDrow)}</button>`
+        }
+        if (mounthForDrow === 12) {
+          mounthForDrow = 1
+        } else {
+          mounthForDrow++
+        }
+      }
+      for (let index = 0; index < 4; index++) {
+        result += `<button class="dp-btn-mounth dp-grey-mounth">${getNameMounth(mounthForGreyDrow2)}</button>`
+        mounthForGreyDrow2++
+      }
+      return result
+    }
+
+    function drowYearsBtn(y = year) {
+      let result = '';
+      const yearNow = new Date().getFullYear();
+      let yearForDrow = yearNow
+      let maxYears = yearNow+20
+      let minYears = yearNow-20
+      for (minYears; minYears < yearNow; minYears++) {
+        result += `<button class="dp-btn-year dp-grey-year">${minYears}</button>`
+      }
+      for (let index = 0; index < 10; index++) {
+        if (index === 0) {
+          result += `<button class="dp-btn-year dp-current-year">${yearForDrow}</button>`
+        } else {
+          result += `<button class="dp-btn-year">${yearForDrow}</button>`
+        }
+        yearForDrow++
+      }
+      for (maxYears; maxYears + 1 > yearForDrow;) {
+        result += `<button class="dp-btn-year dp-grey-year">${yearForDrow}</button>`
+        yearForDrow++
+      }
+      console.log(maxYears);
+      return result
+    }
+
 
     this.mainDp = `<div class="dp-main">
         ${drowBtn(mounth, year, day)}
@@ -173,21 +230,32 @@ class Datepicker {
       });
       year = year + 1
       document.querySelector('.dp-nav-y').innerText = year
-      document.querySelector('.dp-main').innerHTML = `${drowBtn(mounth, year, day)}`
-      document.querySelectorAll('.dp-main button').forEach(element => {
-        element.addEventListener('click', clickСhoose)
-      });
+      document.querySelector('.dp-main').innerHTML = ``
+      setTimeout(() => {
+        document.querySelector('.dp-main').innerHTML = `${drowBtn(mounth, year, day)}`
+        document.querySelectorAll('.dp-main button').forEach(element => {
+          element.addEventListener('click', clickСhoose)
+        });
+      }, 300);
     }
     function clickNextMounth() {
       document.querySelectorAll('.dp-main button').forEach(element => {
         element.removeEventListener('click', clickСhoose)
       });
-      mounth = allM[getIndexMounth(mounth) + 1]
+      if (getNameMounth(getIndexMounth(mounth)) === 'Декабрь') {
+        mounth = 'Январь'
+        clickNextYear()
+      } else {
+        mounth = getNameMounth(getIndexMounth(mounth) + 1)
+      }
       document.querySelector('.dp-nav-m').innerText = mounth
-      document.querySelector('.dp-main').innerHTML = `${drowBtn(mounth, year, day)}`
-      document.querySelectorAll('.dp-main button').forEach(element => {
-        element.addEventListener('click', clickСhoose)
-      });
+      document.querySelector('.dp-main').innerHTML = ``
+      setTimeout(() => {
+        document.querySelector('.dp-main').innerHTML = `${drowBtn(mounth, year, day)}`
+        document.querySelectorAll('.dp-main button').forEach(element => {
+          element.addEventListener('click', clickСhoose)
+        });
+      }, 300);
     }
     function clickPrevYear() {
       document.querySelectorAll('.dp-main button').forEach(element => {
@@ -195,21 +263,33 @@ class Datepicker {
       });
       year = year - 1
       document.querySelector('.dp-nav-y').innerText = year
-      document.querySelector('.dp-main').innerHTML = `${drowBtn(mounth, year, day)}`
-      document.querySelectorAll('.dp-main button').forEach(element => {
-        element.addEventListener('click', clickСhoose)
-      });
+      document.querySelector('.dp-main').innerHTML = ``
+      setTimeout(() => {
+        document.querySelector('.dp-main').innerHTML = `${drowBtn(mounth, year, day)}`
+        document.querySelectorAll('.dp-main button').forEach(element => {
+          element.addEventListener('click', clickСhoose)
+        });
+      }, 300);
     }
     function clickPrevMounth() {
       document.querySelectorAll('.dp-main button').forEach(element => {
         element.removeEventListener('click', clickСhoose)
       });
-      mounth = allM[getIndexMounth(mounth) - 1]
+      if (getNameMounth(getIndexMounth(mounth)) === 'Январь') {
+        mounth = 'Декабрь'
+        clickPrevYear()
+      } else {
+        mounth = getNameMounth(getIndexMounth(mounth) - 1)
+      }
       document.querySelector('.dp-nav-m').innerText = mounth
-      document.querySelector('.dp-main').innerHTML = `${drowBtn(mounth, year, day)}`
-      document.querySelectorAll('.dp-main button').forEach(element => {
-        element.addEventListener('click', clickСhoose)
-      });
+      console.log(day);
+      document.querySelector('.dp-main').innerHTML = ``
+      setTimeout(() => {
+        document.querySelector('.dp-main').innerHTML = `${drowBtn(mounth, year, day)}`
+        document.querySelectorAll('.dp-main button').forEach(element => {
+          element.addEventListener('click', clickСhoose)
+        });
+      }, 300);
     }
     function clickСhoose() {
       document.querySelectorAll('.dp-main button').forEach(elem => {
@@ -217,15 +297,142 @@ class Datepicker {
       })
       this.classList.add('dp-current-day')
       if (this.classList.contains('dp-btn-last-mounth')) {
-        $el.value = `${year}-${f_addZero(getIndexMounth(mounth) - 1)}-${f_addZero(parseFloat(this.innerText))}`
+        if (getIndexMounth(mounth) === 1) {
+          $el.value = `${year}-${f_addZero(12)}-${f_addZero(parseFloat(this.innerText))}`
+        } else {
+          $el.value = `${year}-${f_addZero(getIndexMounth(mounth) - 1)}-${f_addZero(parseFloat(this.innerText))}`
+          console.log(day);
+          clickPrevMounth()
+        }
       } else if (this.classList.contains('dp-btn-next-mounth')) {
-        $el.value = `${year}-${f_addZero(getIndexMounth(mounth) + 1)}-${f_addZero(parseFloat(this.innerText))}`
+        if (getIndexMounth(mounth) + 1 === 13) {
+          $el.value = `${year}-${f_addZero(1)}-${f_addZero(parseFloat(this.innerText))}`
+        } else {
+          $el.value = `${year}-${f_addZero(getIndexMounth(mounth) + 1)}-${f_addZero(parseFloat(this.innerText))}`
+          clickNextMounth()
+        }
       } else {
         $el.value = `${year}-${f_addZero(getIndexMounth(mounth))}-${f_addZero(parseFloat(this.innerText))}`
       }
+      if (document.querySelector('.dp-nav-m').innerText.trim() === 'Декабрь' && new Date($el.value).getMonth() + 1 === 1) {
+        $el.value = `${year + 1}-${f_addZero(getIndexMounth(mounth))}-${f_addZero(parseFloat(this.innerText))}`
+        clickNextMounth()
+      } else if (document.querySelector('.dp-nav-m').innerText.trim() === 'Январь' && new Date($el.value).getMonth() + 1 === 12) {
+        $el.value = `${year - 1}-${f_addZero(12)}-${f_addZero(parseFloat(this.innerText))}`
+        clickPrevMounth()
+      }
       day = parseFloat(this.innerText)
+      currentMounth = mounth
+      currentYear = year
+
       myDp.classList.remove('dp-container--active')
     }
+    let height
+    let counterForSlide
+    function clickNextMounthForMounth() {
+      document.querySelector('.dp-current-mounth').nextElementSibling.classList.add('dp-current-mounth')
+      let prevDpCurrentMounth = document.querySelectorAll('.dp-current-mounth')[0]
+      prevDpCurrentMounth.classList.remove('dp-current-mounth')
+      mounth = document.querySelector('.dp-current-mounth').innerText.trim()
+      document.querySelector('.dp-nav-m').innerText = mounth
+    }
+    function clickNextYearForYear() {
+      height = document.querySelector('.dp-main').offsetHeight
+      counterForSlide = height;
+      document.querySelector('.dp-main-container').style.transform = `translateY(-${counterForSlide}px)`
+      counterForSlide += height
+    }
+    function clickPrevMounthForMounth() {
+      document.querySelector('.dp-current-mounth').previousElementSibling.classList.add('dp-current-mounth')
+      let prevDpCurrentMounth = document.querySelectorAll('.dp-current-mounth')[1]
+      prevDpCurrentMounth.classList.remove('dp-current-mounth')
+      mounth = document.querySelector('.dp-current-mounth').innerText.trim()
+      document.querySelector('.dp-nav-m').innerText = mounth
+    }
+    function clickPrevYearForYear() {
+    }
+
+    function clickСhooseMounth() {
+      document.querySelectorAll('.dp-main button').forEach(element => {
+        element.removeEventListener('click', clickСhooseMounth)
+      });
+      document.querySelector('.dp-main').classList.remove('dp-main--mounth-choice')
+      mounth = this.innerText.trim()
+      document.querySelector('.dp-main').innerHTML = `${drowBtn(mounth, year, day)}`
+      document.querySelectorAll('.dp-main button').forEach(element => {
+        element.addEventListener('click', clickСhoose)
+      });
+      document.querySelector('.dp-nav-m').innerText = mounth
+      document.querySelector('.dp-week-name').classList.remove('dp-hide')
+      document.querySelector('.dp-nav-y').classList.remove('dp-hide')
+      document.querySelector('.dp-prev-y').classList.remove('dp-hide')
+      document.querySelector('.dp-next-y').classList.remove('dp-hide')
+      document.querySelector('.dp-next-m').removeEventListener('click', clickNextMounthForMounth)
+      document.querySelector('.dp-prev-m').removeEventListener('click', clickPrevMounthForMounth)
+      document.querySelector('.dp-next-m').addEventListener('click', clickNextMounth)
+      document.querySelector('.dp-prev-m').addEventListener('click', clickPrevMounth)
+    }
+    function clickMounth() {
+      document.querySelectorAll('.dp-main button').forEach(element => {
+        element.removeEventListener('click', clickСhoose)
+      });
+      document.querySelector('.dp-week-name').classList.add('dp-hide')
+      document.querySelector('.dp-nav-y').classList.add('dp-hide')
+      document.querySelector('.dp-prev-y').classList.add('dp-hide')
+      document.querySelector('.dp-next-y').classList.add('dp-hide')
+      document.querySelector('.dp-main').innerHTML = `${drowMounthBtn(mounth)}`
+      document.querySelector('.dp-main').classList.add('dp-main--mounth-choice')
+      document.querySelectorAll('.dp-main button').forEach(element => {
+        element.addEventListener('click', clickСhooseMounth)
+      });
+      document.querySelector('.dp-next-m').removeEventListener('click', clickNextMounth)
+      document.querySelector('.dp-prev-m').removeEventListener('click', clickPrevMounth)
+      document.querySelector('.dp-next-m').addEventListener('click', clickNextMounthForMounth)
+      document.querySelector('.dp-prev-m').addEventListener('click', clickPrevMounthForMounth)
+    }
+    function clickСhooseYear() {
+      document.querySelectorAll('.dp-main button').forEach(element => {
+        element.removeEventListener('click', clickСhooseYear)
+      });
+      document.querySelector('.dp-main').classList.remove('dp-main--year-choice')
+      year = parseFloat(this.innerText.trim())
+      document.querySelector('.dp-main').innerHTML = `${drowBtn(mounth, year, day)}`
+      document.querySelectorAll('.dp-main button').forEach(element => {
+        element.addEventListener('click', clickСhoose)
+      });
+      document.querySelector('.dp-nav-y').innerText = year
+      document.querySelector('.dp-week-name').classList.remove('dp-hide')
+      document.querySelector('.dp-nav-m').classList.remove('dp-hide')
+      document.querySelector('.dp-prev-y').classList.remove('dp-hide')
+      document.querySelector('.dp-next-y').classList.remove('dp-hide')
+      document.querySelector('.dp-next-m').removeEventListener('click', clickNextYearForYear)
+      document.querySelector('.dp-prev-m').removeEventListener('click', clickPrevYearForYear)
+      document.querySelector('.dp-next-m').addEventListener('click', clickNextMounth)
+      document.querySelector('.dp-prev-m').addEventListener('click', clickPrevMounth)
+    }
+    function clickYears() {
+      document.querySelectorAll('.dp-main button').forEach(element => {
+        element.removeEventListener('click', clickСhoose)
+      });
+      document.querySelector('.dp-week-name').classList.add('dp-hide')
+      document.querySelector('.dp-nav-m').classList.add('dp-hide')
+      document.querySelector('.dp-prev-y').classList.add('dp-hide')
+      document.querySelector('.dp-next-y').classList.add('dp-hide')
+      document.querySelector('.dp-main').innerHTML = `
+      <div class="dp-main-container">
+        ${drowYearsBtn(year)}
+      </div>
+      `
+      document.querySelector('.dp-main').classList.add('dp-main--year-choice')
+      document.querySelectorAll('.dp-main button').forEach(element => {
+        element.addEventListener('click', clickСhooseYear)
+      });
+      document.querySelector('.dp-next-m').removeEventListener('click', clickNextMounth)
+      document.querySelector('.dp-prev-m').removeEventListener('click', clickPrevMounth)
+      document.querySelector('.dp-next-m').addEventListener('click', clickNextYearForYear)
+      document.querySelector('.dp-prev-m').addEventListener('click', clickPrevYearForYear)
+    }
+
 
     $el.addEventListener('click', function () {
       myDp.classList.add('dp-container--active')
@@ -237,11 +444,16 @@ class Datepicker {
     document.querySelector('.dp-prev-m').addEventListener('click', clickPrevMounth)
     document.querySelector('.dp-next-y').addEventListener('click', clickNextYear)
     document.querySelector('.dp-next-m').addEventListener('click', clickNextMounth)
+    document.querySelector('.dp-nav-m').addEventListener('click', clickMounth)
+    document.querySelector('.dp-nav-y').addEventListener('click', clickYears)
 
     document.addEventListener('click', function (e) {
-      if (myDp.classList.contains('dp-container--active')) {
-        if (!e.target.closest(`.${$el.parentNode.classList[0]}`)) {
-          myDp.classList.remove('dp-container--active')
+      if (!e.target.classList.contains('dp-btn-mounth')) {
+        if (myDp.classList.contains('dp-container--active')) {
+          if (!e.target.closest(`.${$el.parentNode.classList[0]}`)) {
+            console.log(e.target);
+            myDp.classList.remove('dp-container--active')
+          }
         }
       }
     })

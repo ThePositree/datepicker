@@ -4,42 +4,122 @@
   left: 0;
   right: 0;
   width: 100%;
-  background-color: #777fd7;
+  background-color: white;
   color: wheat;
   padding: 20px;
+  box-shadow: 0px 0px 45px rgba(64, 60, 61, 0.1);
+  border-radius: 10px;
 }
+
+.dp-container button {
+  background-color: transparent;
+  border: none;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
 .dp-container--active {
   display: block;
 }
+
 .test-container {
   position: relative;
   width: 320px;
   height: 500px;
 }
-.test {
+
+.container {
   position: relative;
   width: 300px;
 }
+
 .dp-nav {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 15px;
+  margin-bottom: 25px;
   align-items: center;
 }
+
 .dp-main {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   width: 100%;
 }
+
 .dp-week-name {
   display: grid;
-  grid-template-columns: repeat(7,1fr);
+  grid-template-columns: repeat(7, 1fr);
   width: 100%;
   justify-items: center;
+  color: #A5A5A5;
+  font-size: 14px;
+  padding-bottom: 15px;
 }
+
+button.dp-btn-last-mounth {
+  color: #A5A5A5;
+  border-top: 1px solid #D6D6D6;
+  padding: 15px 0;
+}
+
+button.dp-btn-next-mounth {
+  color: #A5A5A5;
+  border-top: 1px solid #D6D6D6;
+  padding: 15px 0;
+}
+
+button.dp-btn-day {
+  color: #535353;
+  border-top: 1px solid #D6D6D6;
+  padding: 15px 0;
+}
+
+button.dp-current-day {
+  color: white;
+  border-top: 1px solid #D6D6D6;
+  padding: 15px 0;
+  background: #FF703E;
+  border-radius: 50%;
+}
+
 .dp-container--m .dp-row {
   grid-template-columns: repeat(3, 1fr);
 }
+
 .dp-current-day {
   background-color: wheat;
+}
+
+.dp-main--mounth-choice {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.dp-hide {
+  display: none;
+}
+
+.dp-current-mounth {
+  background-color: #FF703E;
+}
+
+.dp-main--year-choice {
+  display: block;
+  overflow: hidden;
+  height: 300px;
+}
+
+.dp-main--year-choice .dp-main-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.dp-nav-m-y button {
+  font-size: 16px;
+  color: #FF703E;
+  font-weight: 600;
+}
+
+button.dp-nav-m {
+  margin-right: 5px;
 }
