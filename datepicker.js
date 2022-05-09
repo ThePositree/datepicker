@@ -86,7 +86,7 @@ class Datepicker {
       if (getFirstDayOfWeek(m, y)) {
         amountDaysOfLastMounth = amountDaysOfLastMounth - (getFirstDayOfWeek(m, y) - 2)
         for (let index = 0; index < getFirstDayOfWeek(m, y) - 1; index++) {
-          result += `<button class="dp-btn-last-mounth">${amountDaysOfLastMounth}</button>`;
+          result += `<button class="dp-btn-day dp-btn-last-mounth"><div>${amountDaysOfLastMounth}</div></button>`;
           counter++
           amountDaysOfLastMounth++
           counter2++
@@ -94,7 +94,7 @@ class Datepicker {
       } else {
         amountDaysOfLastMounth = amountDaysOfLastMounth - 5
         for (let index = 0; index < 6; index++) {
-          result += `<button class="dp-btn-last-mounth">${amountDaysOfLastMounth}</button>`;
+          result += `<button class="dp-btn-day dp-btn-last-mounth"><div>${amountDaysOfLastMounth}</div></button>`;
           counter++
           counter2++
           amountDaysOfLastMounth++
@@ -105,11 +105,11 @@ class Datepicker {
         let amountForDrow = 7 - counter
         for (let index = 0; index < amountForDrow; index++) {
           if (d - 1 === index && mounth.trim() === currentMounth.trim() && currentYear === year) {
-            result += `<button class="dp-current-day">${amountForDrowOneRow}</button>`
+            result += `<button class="dp-btn-day dp-current-day"><div>${amountForDrowOneRow}</div></button>`
             amountForDrowOneRow++
             counter2++
           } else {
-            result += `<button class="dp-btn-day">${amountForDrowOneRow}</button>`
+            result += `<button class="dp-btn-day"><div>${amountForDrowOneRow}</div></button>`
             amountForDrowOneRow++
             counter2++
           }
@@ -119,18 +119,18 @@ class Datepicker {
       let amountForDrowRestRow = amountForDrowOneRow;
       for (let index = 0; index <= amountForDrowAllRow; index++) {
         if (d === amountForDrowRestRow && mounth.trim() === currentMounth.trim() && currentYear === year) {
-          result += `<button class="dp-current-day">${amountForDrowRestRow}</button>`
+          result += `<button class="dp-btn-day dp-current-day"><div>${amountForDrowRestRow}</div></button>`
           amountForDrowRestRow++
           counter2++
         } else {
-          result += `<button class="dp-btn-day">${amountForDrowRestRow}</button>`
+          result += `<button class="dp-btn-day"><div>${amountForDrowRestRow}</div></button>`
           amountForDrowRestRow++
           counter2++
         }
       }
       let amountNextMountRestRow = 42 - counter2;
       for (let index = 0; index < amountNextMountRestRow; index++) {
-        result += `<button class="dp-btn-next-mounth">${index + 1}</button>`
+        result += `<button class="dp-btn-day dp-btn-next-mounth"><div>${index + 1}</div></button>`
       }
       return result
     }
@@ -168,8 +168,8 @@ class Datepicker {
       let result = '';
       const yearNow = new Date().getFullYear();
       let yearForDrow = yearNow
-      let maxYears = yearNow+20
-      let minYears = yearNow-20
+      let maxYears = yearNow + 20
+      let minYears = yearNow - 20
       for (minYears; minYears < yearNow; minYears++) {
         result += `<button class="dp-btn-year dp-grey-year">${minYears}</button>`
       }
@@ -395,20 +395,19 @@ class Datepicker {
         element.removeEventListener('click', clickСhooseYear)
       });
       document.querySelector('.dp-main').classList.remove('dp-main--year-choice')
+      document.querySelector('.dp-main').classList.add('dp-main--mounth-choice')
       year = parseFloat(this.innerText.trim())
-      document.querySelector('.dp-main').innerHTML = `${drowBtn(mounth, year, day)}`
+      document.querySelector('.dp-main').innerHTML = `${drowMounthBtn(mounth)}`
       document.querySelectorAll('.dp-main button').forEach(element => {
-        element.addEventListener('click', clickСhoose)
+        element.addEventListener('click', clickСhooseMounth)
       });
       document.querySelector('.dp-nav-y').innerText = year
-      document.querySelector('.dp-week-name').classList.remove('dp-hide')
       document.querySelector('.dp-nav-m').classList.remove('dp-hide')
-      document.querySelector('.dp-prev-y').classList.remove('dp-hide')
-      document.querySelector('.dp-next-y').classList.remove('dp-hide')
+      document.querySelector('.dp-nav-y').classList.add('dp-hide')
       document.querySelector('.dp-next-m').removeEventListener('click', clickNextYearForYear)
       document.querySelector('.dp-prev-m').removeEventListener('click', clickPrevYearForYear)
-      document.querySelector('.dp-next-m').addEventListener('click', clickNextMounth)
-      document.querySelector('.dp-prev-m').addEventListener('click', clickPrevMounth)
+      document.querySelector('.dp-next-m').addEventListener('click', clickNextMounthForMounth)
+      document.querySelector('.dp-prev-m').addEventListener('click', clickPrevMounthForMounth)
     }
     function clickYears() {
       document.querySelectorAll('.dp-main button').forEach(element => {
@@ -448,11 +447,13 @@ class Datepicker {
     document.querySelector('.dp-nav-y').addEventListener('click', clickYears)
 
     document.addEventListener('click', function (e) {
-      if (!e.target.classList.contains('dp-btn-mounth')) {
-        if (myDp.classList.contains('dp-container--active')) {
-          if (!e.target.closest(`.${$el.parentNode.classList[0]}`)) {
-            console.log(e.target);
-            myDp.classList.remove('dp-container--active')
+      if (!e.target.classList.contains('dp-btn-year')) {
+        if (!e.target.classList.contains('dp-btn-mounth')) {
+          if (myDp.classList.contains('dp-container--active')) {
+            if (!e.target.closest(`.${$el.parentNode.classList[0]}`)) {
+              console.log(e.target);
+              myDp.classList.remove('dp-container--active')
+            }
           }
         }
       }
