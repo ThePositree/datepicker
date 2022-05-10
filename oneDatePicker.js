@@ -1,5 +1,5 @@
 class Datepicker {
-  constructor($el, { date = new Date(), inputTwo = false}) {
+  constructor($el, { date = new Date(), inputTwo = false }) {
 
     function f_addZero(p_num) {
       if (p_num >= 0 && p_num <= 9) {
@@ -528,9 +528,5 @@ class Datepicker {
         }
       }
     })
-
-
-
-    
   }
 }
