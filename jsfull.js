@@ -1,5 +1,5 @@
-class Datepicker{
-  constructor($el,$el2,date = new Date(),date2 = new Date()){
+class Datepicker {
+  constructor($el, $el2, date = new Date(), date2 = new Date()) {
     function f_addZero(p_num) {
       if (p_num >= 0 && p_num <= 9) {
         return '0' + p_num;
@@ -372,8 +372,17 @@ class Datepicker{
         ${this.mainDp}
       </div>`
     this.navDp = `<div class="dp-nav">
-        <button class="dp-prev-y">1</button>
-        <button class="dp-prev-m">1</button>
+        <button class="dp-prev-y">
+          <svg xmlns="http://www.w3.org/2000/svg" width="9" height="8" viewBox="0 0 9 8" fill="none">
+            <path d="M5 7.0625L4.06524 8L0.0769228 4L4.06524 0L5 0.9375L1.94645 4L5 7.0625Z" fill="#C0C0C0"/>
+            <path d="M9 7.0625L8.06524 8L4.07692 4L8.06524 0L9 0.9375L5.94645 4L9 7.0625Z" fill="#C0C0C0"/>
+          </svg>
+        </button>
+        <button class="dp-prev-m">
+          <svg xmlns="http://www.w3.org/2000/svg" width="5" height="8" viewBox="0 0 5 8" fill="none">
+            <path d="M4.92285 7.0625L3.98809 8L-0.000225544 4L3.98809 0L4.92285 0.9375L1.8693 4L4.92285 7.0625Z" fill="#C0C0C0"/>
+          </svg>
+        </button>
         <div class="dp-nav-m-y">
           <button class="dp-nav-m">
             ${mounth}
@@ -382,8 +391,17 @@ class Datepicker{
             ${year}
           </button>
         </div>
-        <button class="dp-next-m">2</button>
-        <button class="dp-next-y">2</button>
+        <button class="dp-next-m">
+          <svg xmlns="http://www.w3.org/2000/svg" width="6" height="8" viewBox="0 0 6 8" fill="none">
+            <path d="M0.922852 0.9375L1.85761 0L5.84593 4L1.85761 8L0.922852 7.0625L3.97641 4L0.922852 0.9375Z" fill="#C0C0C0"/>
+          </svg>
+        </button>
+        <button class="dp-next-y">
+        <svg xmlns="http://www.w3.org/2000/svg" width="9" height="8" viewBox="0 0 9 8" fill="none">
+          <path d="M4 0.9375L4.93476 0L8.92308 4L4.93476 8L4 7.0625L7.05355 4L4 0.9375Z" fill="#C0C0C0"/>
+          <path d="M5.33901e-07 0.9375L0.934762 0L4.92308 4L0.934761 8L0 7.0625L3.05355 4L5.33901e-07 0.9375Z" fill="#C0C0C0"/>
+        </svg>
+        </button>
       </div>`
     this.containerDp = `<div class='dp-container'>${this.navDp}${this.bodyDp}</div>`
 
@@ -405,8 +423,17 @@ class Datepicker{
         ${this.mainDp2}
       </div>`
     this.navDp2 = `<div class="dp-nav2">
-        <button class="dp-prev-y2">1</button>
-        <button class="dp-prev-m2">1</button>
+        <button class="dp-prev-y2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="9" height="8" viewBox="0 0 9 8" fill="none">
+            <path d="M5 7.0625L4.06524 8L0.0769228 4L4.06524 0L5 0.9375L1.94645 4L5 7.0625Z" fill="#C0C0C0"/>
+            <path d="M9 7.0625L8.06524 8L4.07692 4L8.06524 0L9 0.9375L5.94645 4L9 7.0625Z" fill="#C0C0C0"/>
+          </svg>
+        </button>
+        <button class="dp-prev-m2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="5" height="8" viewBox="0 0 5 8" fill="none">
+            <path d="M4.92285 7.0625L3.98809 8L-0.000225544 4L3.98809 0L4.92285 0.9375L1.8693 4L4.92285 7.0625Z" fill="#C0C0C0"/>
+          </svg>
+        </button>
         <div class="dp-nav-m-y2">
           <button class="dp-nav-m2">
             ${mounth2}
@@ -415,8 +442,17 @@ class Datepicker{
             ${year2}
           </button>
         </div>
-        <button class="dp-next-m2">2</button>
-        <button class="dp-next-y2">2</button>
+        <button class="dp-next-m2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="6" height="8" viewBox="0 0 6 8" fill="none">
+            <path d="M0.922852 0.9375L1.85761 0L5.84593 4L1.85761 8L0.922852 7.0625L3.97641 4L0.922852 0.9375Z" fill="#C0C0C0"/>
+          </svg>
+        </button>
+        <button class="dp-next-y2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="9" height="8" viewBox="0 0 9 8" fill="none">
+          <path d="M4 0.9375L4.93476 0L8.92308 4L4.93476 8L4 7.0625L7.05355 4L4 0.9375Z" fill="#C0C0C0"/>
+          <path d="M5.33901e-07 0.9375L0.934762 0L4.92308 4L0.934761 8L0 7.0625L3.05355 4L5.33901e-07 0.9375Z" fill="#C0C0C0"/>
+        </svg>
+        </button>
       </div>`
     this.containerDp2 = `<div class='dp-container2'>${this.navDp2}${this.bodyDp2}</div>`
 
@@ -438,12 +474,10 @@ class Datepicker{
       year = year + 1
       document.querySelector('.dp-nav-y').innerText = year
       document.querySelector('.dp-main').innerHTML = ``
-      setTimeout(() => {
-        document.querySelector('.dp-main').innerHTML = `${drowBtn(mounth, year, day)}`
-        document.querySelectorAll('.dp-main button').forEach(element => {
-          element.addEventListener('click', clickСhoose)
-        });
-      }, 100);
+      document.querySelector('.dp-main').innerHTML = `${drowBtn(mounth, year, day)}`
+      document.querySelectorAll('.dp-main button').forEach(element => {
+        element.addEventListener('click', clickСhoose)
+      });
     }
     function clickNextMounth() {
       document.querySelectorAll('.dp-main button').forEach(element => {
@@ -457,12 +491,10 @@ class Datepicker{
       }
       document.querySelector('.dp-nav-m').innerText = mounth
       document.querySelector('.dp-main').innerHTML = ``
-      setTimeout(() => {
-        document.querySelector('.dp-main').innerHTML = `${drowBtn(mounth, year, day)}`
-        document.querySelectorAll('.dp-main button').forEach(element => {
-          element.addEventListener('click', clickСhoose)
-        });
-      }, 100);
+      document.querySelector('.dp-main').innerHTML = `${drowBtn(mounth, year, day)}`
+      document.querySelectorAll('.dp-main button').forEach(element => {
+        element.addEventListener('click', clickСhoose)
+      });
     }
     function clickPrevYear() {
       document.querySelectorAll('.dp-main button').forEach(element => {
@@ -471,12 +503,10 @@ class Datepicker{
       year = year - 1
       document.querySelector('.dp-nav-y').innerText = year
       document.querySelector('.dp-main').innerHTML = ``
-      setTimeout(() => {
-        document.querySelector('.dp-main').innerHTML = `${drowBtn(mounth, year, day)}`
-        document.querySelectorAll('.dp-main button').forEach(element => {
-          element.addEventListener('click', clickСhoose)
-        });
-      }, 100);
+      document.querySelector('.dp-main').innerHTML = `${drowBtn(mounth, year, day)}`
+      document.querySelectorAll('.dp-main button').forEach(element => {
+        element.addEventListener('click', clickСhoose)
+      });
     }
     function clickPrevMounth() {
       document.querySelectorAll('.dp-main button').forEach(element => {
@@ -490,12 +520,10 @@ class Datepicker{
       }
       document.querySelector('.dp-nav-m').innerText = mounth
       document.querySelector('.dp-main').innerHTML = ``
-      setTimeout(() => {
-        document.querySelector('.dp-main').innerHTML = `${drowBtn(mounth, year, day)}`
-        document.querySelectorAll('.dp-main button').forEach(element => {
-          element.addEventListener('click', clickСhoose)
-        });
-      }, 100);
+      document.querySelector('.dp-main').innerHTML = `${drowBtn(mounth, year, day)}`
+      document.querySelectorAll('.dp-main button').forEach(element => {
+        element.addEventListener('click', clickСhoose)
+      });
     }
 
 
@@ -507,12 +535,10 @@ class Datepicker{
       year2 = year2 + 1
       document.querySelector('.dp-nav-y2').innerText = year2
       document.querySelector('.dp-main2').innerHTML = ``
-      setTimeout(() => {
-        document.querySelector('.dp-main2').innerHTML = `${drowBtn2(mounth2, year2, day2)}`
-        document.querySelectorAll('.dp-main2 button').forEach(element => {
-          element.addEventListener('click', clickСhoose2)
-        });
-      }, 100);
+      document.querySelector('.dp-main2').innerHTML = `${drowBtn2(mounth2, year2, day2)}`
+      document.querySelectorAll('.dp-main2 button').forEach(element => {
+        element.addEventListener('click', clickСhoose2)
+      });
     }
     function clickNextMounth2() {
       document.querySelectorAll('.dp-main2 button').forEach(element => {
@@ -526,12 +552,10 @@ class Datepicker{
       }
       document.querySelector('.dp-nav-m2').innerText = mounth2
       document.querySelector('.dp-main2').innerHTML = ``
-      setTimeout(() => {
-        document.querySelector('.dp-main2').innerHTML = `${drowBtn2(mounth2, year2, day2)}`
-        document.querySelectorAll('.dp-main2 button').forEach(element => {
-          element.addEventListener('click', clickСhoose2)
-        });
-      }, 100);
+      document.querySelector('.dp-main2').innerHTML = `${drowBtn2(mounth2, year2, day2)}`
+      document.querySelectorAll('.dp-main2 button').forEach(element => {
+        element.addEventListener('click', clickСhoose2)
+      });
     }
     function clickPrevYear2() {
       document.querySelectorAll('.dp-main2 button').forEach(element => {
@@ -540,12 +564,10 @@ class Datepicker{
       year2 = year2 - 1
       document.querySelector('.dp-nav-y2').innerText = year2
       document.querySelector('.dp-main2').innerHTML = ``
-      setTimeout(() => {
-        document.querySelector('.dp-main2').innerHTML = `${drowBtn2(mounth2, year2, day2)}`
-        document.querySelectorAll('.dp-main2 button').forEach(element => {
-          element.addEventListener('click', clickСhoose2)
-        });
-      }, 100);
+      document.querySelector('.dp-main2').innerHTML = `${drowBtn2(mounth2, year2, day2)}`
+      document.querySelectorAll('.dp-main2 button').forEach(element => {
+        element.addEventListener('click', clickСhoose2)
+      });
     }
     function clickPrevMounth2() {
       document.querySelectorAll('.dp-main2 button').forEach(element => {
@@ -559,14 +581,14 @@ class Datepicker{
       }
       document.querySelector('.dp-nav-m2').innerText = mounth2
       document.querySelector('.dp-main2').innerHTML = ``
-      setTimeout(() => {
-        document.querySelector('.dp-main2').innerHTML = `${drowBtn2(mounth2, year2, day2)}`
-        document.querySelectorAll('.dp-main2 button').forEach(element => {
-          element.addEventListener('click', clickСhoose2)
-        });
-      }, 100);
+      document.querySelector('.dp-main2').innerHTML = `${drowBtn2(mounth2, year2, day2)}`
+      document.querySelectorAll('.dp-main2 button').forEach(element => {
+        element.addEventListener('click', clickСhoose2)
+      });
     }
 
+
+    const myDpEvent = new CustomEvent('dpChoice')
 
 
     function clickСhoose() {
@@ -601,8 +623,7 @@ class Datepicker{
       day = parseFloat(this.innerText)
       currentMounth = mounth
       currentYear = year
-
-      myDp.classList.remove('dp-container-all--active')
+      $el.dispatchEvent(myDpEvent)
     }
 
 
@@ -638,7 +659,7 @@ class Datepicker{
       day2 = parseFloat(this.innerText)
       currentMounth2 = mounth2
       currentYear2 = year2
-
+      $el2.dispatchEvent(myDpEvent)
       myDp.classList.remove('dp-container-all--active')
     }
 
@@ -888,7 +909,7 @@ class Datepicker{
     document.querySelector('.dp-next-m2').addEventListener('click', clickNextMounth2)
     document.querySelector('.dp-nav-m2').addEventListener('click', clickMounth2)
     document.querySelector('.dp-nav-y2').addEventListener('click', clickYears2)
-  
+
     document.addEventListener('click', function (e) {
       if (!e.target.classList.contains('dp-btn-inner') && !e.target.classList.contains('dp-btn-inner2')) {
         if (!e.target.classList.contains('dp-btn-year') && !e.target.classList.contains('dp-btn-year2')) {
