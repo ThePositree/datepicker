@@ -11,6 +11,10 @@ class Datepicker {
     let choiceDate = new Date(date)
     let choiceDate2 = new Date(date2)
 
+    function getHeightElem(classElem) {
+      return document.querySelector(`.${classElem}`).offsetHeight
+    }
+
 
     function getNameMounth(m) {
       if (m === 1) {
@@ -309,23 +313,31 @@ class Datepicker {
       }
       return result
     }
-
+    let yearNow = new Date().getFullYear()
+    let yearMax = yearNow + 100;
+    let yearMin = yearNow - 100;
     function drowYearsBtn(y = year) {
+      let yearForDrow = yearNow - 100
       let result = '';
-      let yearForDrow = y - 4
-      for (let index = 0; index < 4; index++) {
-        result += `<button class="dp-btn-year dp-grey-year"><div class="dp-btn-inner">${yearForDrow}</div></button>`
-        yearForDrow++
+      for (; yearForDrow < y + 1;) {
+        if (yearForDrow === y) {
+          result += `<button id="dp-current-year" class="dp-btn-year dp-current-year"><div class="dp-btn-inner">${yearForDrow}</div></button>`
+          yearForDrow++
+          break
+        } else {
+          result += `<button class="dp-btn-year dp-grey-year"><div class="dp-btn-inner">${yearForDrow}</div></button>`
+          yearForDrow++
+        }
       }
-      for (let index = 0; index < 12; index++) {
-        if (yearForDrow === year) {
-          result += `<button class="dp-btn-year dp-current-year"><div class="dp-btn-inner">${yearForDrow}</div></button>`
+      for (let index = 0; index < 11; index++) {
+        if (yearForDrow === y) {
+          result += `<button id="dp-current-year" class="dp-btn-year dp-current-year"><div class="dp-btn-inner">${yearForDrow}</div></button>`
         } else {
           result += `<button class="dp-btn-year"><div class="dp-btn-inner">${yearForDrow}</div></button>`
         }
         yearForDrow++
       }
-      for (let index = 0; index < 4; index++) {
+      for (; yearForDrow < yearMax + 1;) {
         result += `<button class="dp-btn-year dp-grey-year"><div class="dp-btn-inner">${yearForDrow}</div></button>`
         yearForDrow++
       }
@@ -663,8 +675,9 @@ class Datepicker {
       myDp.classList.remove('dp-container-all--active')
     }
 
-    let counterForClickYear = year;
+    let positionForClickYear = 0;
     let counterForClickYear2 = year2;
+    let counterClicksYears = 0;
 
     function clickNextMounthForMounth() {
       document.querySelector('.dp-current-mounth').nextElementSibling.classList.add('dp-current-mounth')
@@ -674,14 +687,14 @@ class Datepicker {
       document.querySelector('.dp-nav-m').innerText = mounth
     }
     function clickNextYearForYear() {
-      document.querySelectorAll('.dp-main button').forEach(element => {
-        element.removeEventListener('click', clickСhooseYear)
-      });
-      counterForClickYear += 20
-      document.querySelector('.dp-main').innerHTML = `${drowYearsBtn(counterForClickYear)}`
-      document.querySelectorAll('.dp-main button').forEach(element => {
-        element.addEventListener('click', clickСhooseYear)
-      });
+      let amountClicksLock = parseInt((yearMax - year) / 16)
+      if (amountClicksLock === counterClicksYears) {
+      } else {
+        positionForClickYear -= (getHeightElem('dp-current-year') * 20 / 5) + (17 * 4)
+        document.querySelector('.dp-main').style.transform = `translateY(${positionForClickYear}px)`
+        console.log(document.querySelector('.dp-main').style.transform);
+        counterClicksYears++
+      }
     }
     function clickPrevMounthForMounth() {
       document.querySelector('.dp-current-mounth').previousElementSibling.classList.add('dp-current-mounth')
@@ -691,14 +704,16 @@ class Datepicker {
       document.querySelector('.dp-nav-m').innerText = mounth
     }
     function clickPrevYearForYear() {
-      document.querySelectorAll('.dp-main button').forEach(element => {
-        element.removeEventListener('click', clickСhooseYear)
-      });
-      counterForClickYear -= 20
-      document.querySelector('.dp-main').innerHTML = `${drowYearsBtn(counterForClickYear)}`
-      document.querySelectorAll('.dp-main button').forEach(element => {
-        element.addEventListener('click', clickСhooseYear)
-      });
+      let amountClicksLock = parseInt((year - yearMin) / 16)
+      if (-amountClicksLock - 1 === counterClicksYears) {
+      } else {
+        positionForClickYear += (getHeightElem('dp-current-year') * 20 / 5) + (17 * 4)
+        document.querySelector('.dp-main').style.transform = `translateY(${positionForClickYear}px)`
+        document.querySelectorAll('.dp-btn-year').forEach(element => {
+          element.classList.remove('dp-grey-year')
+        });
+        counterClicksYears--
+      }
     }
     function clickNextMounthForMounth2() {
       document.querySelector('.dp-current-mounth2').nextElementSibling.classList.add('dp-current-mounth2')
@@ -817,6 +832,7 @@ class Datepicker {
       });
       document.querySelector('.dp-main').classList.remove('dp-main--year-choice')
       document.querySelector('.dp-main').classList.add('dp-main--mounth-choice')
+      document.querySelector('.dp-main').style = ''
       year = parseFloat(this.innerText.trim())
       document.querySelector('.dp-main').innerHTML = `${drowMounthBtn(mounth)}`
       document.querySelectorAll('.dp-main button').forEach(element => {
@@ -829,6 +845,7 @@ class Datepicker {
       document.querySelector('.dp-prev-m').removeEventListener('click', clickPrevYearForYear)
       document.querySelector('.dp-next-m').addEventListener('click', clickNextMounthForMounth)
       document.querySelector('.dp-prev-m').addEventListener('click', clickPrevMounthForMounth)
+      document.querySelector('.dp-body').classList.remove('dp-body--years')
     }
     function clickYears() {
       document.querySelectorAll('.dp-main button').forEach(element => {
@@ -838,6 +855,7 @@ class Datepicker {
       document.querySelector('.dp-nav-m').classList.add('dp-hide')
       document.querySelector('.dp-prev-y').classList.add('dp-hide')
       document.querySelector('.dp-next-y').classList.add('dp-hide')
+      document.querySelector('.dp-body').classList.add('dp-body--years')
       document.querySelector('.dp-main').innerHTML = `${drowYearsBtn(year)}`
       document.querySelector('.dp-main').classList.add('dp-main--year-choice')
       document.querySelectorAll('.dp-main button').forEach(element => {
@@ -847,6 +865,11 @@ class Datepicker {
       document.querySelector('.dp-prev-m').removeEventListener('click', clickPrevMounth)
       document.querySelector('.dp-next-m').addEventListener('click', clickNextYearForYear)
       document.querySelector('.dp-prev-m').addEventListener('click', clickPrevYearForYear)
+      document.querySelector('.dp-body').insertAdjacentHTML('beforeend', `<a id="clickScrollYears" class="dp-hide" href="#dp-current-year"></a>`)
+      clickScrollYears.click()
+      clickScrollYears.remove()
+      positionForClickYear = 0;
+      counterClicksYears = 0;
     }
     function clickСhooseYear2() {
       document.querySelectorAll('.dp-main2 button').forEach(element => {
@@ -937,10 +960,17 @@ class Datepicker {
         day = new Date(e.target.value.trim()).getDate()
         document.querySelector('.dp-nav-y').innerText = year
         document.querySelector('.dp-nav-m').innerText = mounth
-        document.querySelector('.dp-main').innerHTML = `${drowBtn(mounth, year, day)}`
+        if (document.querySelector('.dp-main').classList.contains('dp-main--year-choice')) {
+          document.querySelector('.dp-main').innerHTML = `${drowYearsBtn(year)}`
+        } else if (document.querySelector('.dp-main').classList.contains('dp-main--mounth-choice')) {
+          document.querySelector('.dp-main').innerHTML = `${drowMounthBtn(mounth)}`
+        } else {
+          document.querySelector('.dp-main').innerHTML = `${drowBtn(mounth, year, day)}`
+        }
         document.querySelectorAll('.dp-main button').forEach(element => {
           element.addEventListener('click', clickСhoose)
         });
+        $el.dispatchEvent(myDpEvent)
       }
     })
     $el2.addEventListener('input', function (e) {
@@ -955,11 +985,21 @@ class Datepicker {
         day2 = new Date(e.target.value.trim()).getDate()
         document.querySelector('.dp-nav-y2').innerText = year2
         document.querySelector('.dp-nav-m2').innerText = mounth2
-        document.querySelector('.dp-main2').innerHTML = `${drowBtn2(mounth2, year2, day2)}`
+        if (document.querySelector('.dp-main2').classList.contains('dp-main--year-choice2')) {
+          document.querySelector('.dp-main2').innerHTML = `${drowYearsBtn2(year2)}`
+        } else if (document.querySelector('.dp-main2').classList.contains('dp-main--mounth-choice2')) {
+          document.querySelector('.dp-main2').innerHTML = `${drowMounthBtn2(mounth2)}`
+        } else {
+          document.querySelector('.dp-main2').innerHTML = `${drowBtn2(mounth2, year2, day2)}`
+        }
         document.querySelectorAll('.dp-main2 button').forEach(element => {
           element.addEventListener('click', clickСhoose2)
         });
+        $el2.dispatchEvent(myDpEvent)
       }
     })
   }
 }
+
+
+const test = new Datepicker(input1, input2)
